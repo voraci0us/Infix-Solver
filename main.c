@@ -17,7 +17,7 @@ int preced(char c){
 void infixToPostfix(char * str){
     Stack * stack = createStack();
 
-    // create a string to store the postfix conversion 
+    // create a string to store the postfix conversion
     // (will be at most the size of the infix expression)
     int length = 0;
     while(str[length])
@@ -44,7 +44,7 @@ void infixToPostfix(char * str){
                 fprintf(stderr, "To close parentheses, copied over %c\n", out[outIndex]);
                 outIndex++;
                 tmp = top(stack);
-            }            
+            }
         }
         // otherwise it's an operator
         else{
@@ -118,7 +118,7 @@ void sanitize(char * str){
 int power(int a, int b){
     if(b == 0)
         return 1;
-    int ret = a; 
+    int ret = a;
     while(b > 1){
         ret *= a;
         b--;
@@ -128,13 +128,13 @@ int power(int a, int b){
 
 int evaluateOperator(char op, char a, char b){
     if(op == '+')
-        return = a + b;
+        return (a + b);
     else if(op == '-')
-        return = b - a;
+        return (b - a);
     else if(op == '*')
-        return = a * b;
+        return (a * b);
     else if(op == '^')
-        return = power(b, a);
+        return power(b, a);
 }
 
 int evaluatePostfix(char * str){
@@ -164,7 +164,7 @@ int main(){
     printf("%s\n", str);
 
     // sanitize the input
-    sanitize(str);    
+    sanitize(str);
     printf("After sanitization:\n");
     printf("%s\n\n", str);
 
