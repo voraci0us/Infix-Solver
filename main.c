@@ -141,6 +141,8 @@ int evaluateOperator(char op, char a, char b){
         return (b - a);
     else if(op == '*')
         return (a * b);
+    else if(op == '/')
+        return (b / a);
     else if(op == '^')
         return power(b, a);
 }
@@ -153,6 +155,8 @@ int evaluatePostfix(char * str){
         int a, b;
         if(str[i] >= '0' && str[i] <= '9'){
             push(stack, str[i] - '0');
+            if(debug)
+              printStack(stack);
         }
         else{
             a = pop(stack);
