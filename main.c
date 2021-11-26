@@ -1,8 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <ctype.h>
 #include "stack.h"
 
 #define MAX_CHARS 100
+
+int debug = 0;
 
 int preced(char c){
     if(c == '+' || c == '-')
@@ -41,7 +44,8 @@ void infixToPostfix(char * str){
             char tmp = top(stack);
             while(tmp != '('){
                 out[outIndex] = pop(stack);
-                fprintf(stderr, "To close parentheses, copied over %c\n", out[outIndex]);
+                if(debug)
+                  printf("To close parentheses, copied over %c\n", out[outIndex]);
                 outIndex++;
                 tmp = top(stack);
             }
@@ -51,12 +55,14 @@ void infixToPostfix(char * str){
             // print everything of higher or equal precedence
             while(stack->size > 0 && preced(str[i]) <= preced(top(stack))){
                 out[outIndex] = pop(stack);
-                fprintf(stderr, "Copied over %c\n", out[outIndex]);
+                if(debug)
+                  printf("Copied over %c\n", out[outIndex]);
                 if(out[outIndex] != ')' && out[outIndex != '('])
                     outIndex++;
             }
             // then push it to the stack
-            fprintf(stderr, "Pushing %c\n", str[i]);
+            if(debug)
+              printf("Pushing %c\n", str[i]);
             push(stack, str[i]);
         }
 	    i++;
@@ -72,7 +78,8 @@ void infixToPostfix(char * str){
             continue;
         }
         out[outIndex] = pop(stack);
-        fprintf(stderr, "At the end, copied over %c\n", out[outIndex]);
+        if(debug)
+          printf("At the end, copied over %c\n", out[outIndex]);
         outIndex++;
     }
 
@@ -91,7 +98,8 @@ void sanitize(char * str){
     while(str[length])
         length++;
     char out[length];
-    fprintf(stderr,"Sanitizing a string of length %d...\n", length);
+    if(debug)
+      printf("Sanitizing a string of length %d...\n", length);
 
     int i = 0;
     int outIndex = 0;
@@ -149,6 +157,8 @@ int evaluatePostfix(char * str){
         else{
             a = pop(stack);
             b = pop(stack);
+            if(debug == 1)
+              printf("Evaulating %d and %d with %c\n", a, b, str[i]);
             push(stack, evaluateOperator(str[i], a, b));
         }
         i++;
@@ -156,7 +166,43 @@ int evaluatePostfix(char * str){
     return pop(stack);
 }
 
-int main(){
+int strcmpWhitespaceIgnore(char * a, char * b)
+{
+  int iA = 0;
+  int iB = 0;
+  while (a[iA] && b[iB])
+  {
+    if (isspace(a[iA]))
+    {
+      iA++;
+      continue;
+    }
+    else if (isspace(a[iB]))
+    {
+      iB++;
+      continue;
+    }
+    else if (a[iA] == b[iB])
+    {
+      iA++;
+      iB++;
+      continue;
+    }
+    else
+    {
+      printf("Conflict between %c and %c\n", a[iA], b[iB]);
+      return a[iA] - b[iB];
+    }
+  }
+  return 0;
+}
+
+int main(int argc, char ** argv){
+    // check if "--debug" was used in command-line call
+    if (argc == 2)
+      if (strcmpWhitespaceIgnore(argv[1], "--debug") == 0)
+        debug = 1;
+
     // input the infix expression
     char str[MAX_CHARS];
     fgets(str, MAX_CHARS, stdin);
