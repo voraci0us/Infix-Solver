@@ -19,5 +19,6 @@ Stack * expandStack(Stack *);
 char pop(Stack *);
 char top(Stack * stack);
 void push(Stack *, char);
+void printStack();
 
 #endif

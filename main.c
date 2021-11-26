@@ -158,8 +158,10 @@ int evaluatePostfix(char * str){
             a = pop(stack);
             b = pop(stack);
             if(debug == 1)
-              printf("Evaulating %d and %d with %c\n", a, b, str[i]);
+              printf("Evaluating %d and %d with %c as %d\n", a, b, str[i], evaluateOperator(str[i], a, b));
             push(stack, evaluateOperator(str[i], a, b));
+            if(debug)
+              printStack(stack);
         }
         i++;
     }

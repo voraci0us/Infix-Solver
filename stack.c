@@ -44,3 +44,20 @@ void push(Stack * stack, char c){
     stack->arr[stack->size] = c;
     stack->size++;
 }
+
+// print the contents of the entire stack
+void printStack(Stack * stack)
+{
+  printf("-----STACK CONTENTS----\n");
+  for (int i = 0; i < stack->size; i++)
+  {
+    if (stack->arr[i] >= 0 && stack->arr[i] <= 9)
+      printf("%d", stack->arr[i]);
+    else
+      printf("%c", stack->arr[i]);
+    if (i != stack->size)
+      printf(" ");
+  }
+  printf("\n");
+  printf("-----END STACK CONTENTS----\n");
+}
