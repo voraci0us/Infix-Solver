@@ -37,6 +37,8 @@ void infixToPostfix(char * str){
         }
         // if it's an opening parenthesis, push it to the stack
         else if(str[i] == '('){
+            if(i > 0 && str[i-1] >= '0' && str[i-1] <= '9')
+              push(stack, '*');
             push(stack, str[i]);
         }
         // if it's a closing parenthesis, pop all operands up to the next opening parenthesis
