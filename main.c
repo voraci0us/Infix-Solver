@@ -110,7 +110,7 @@ void sanitize(char * str){
             || str[i] == '(' || str[i] == ')'
             || str[i] == '+' || str[i] == '-'
             || str[i] == '*' || str[i] == '/'
-            || str[i] == '^'){
+            || str[i] == '%' || str[i] == '^'){
             out[outIndex] = str[i];
             outIndex++;
         }
@@ -145,6 +145,8 @@ int evaluateOperator(char op, char a, char b){
         return (a * b);
     else if(op == '/')
         return (b / a);
+    else if(op == '%')
+        return (b % a);
     else if(op == '^')
         return power(b, a);
 }
